@@ -21,6 +21,7 @@ class Solution:
             f[i] = sum(f[i - x] for x in nums if x <= i)
         return f[target]
     
+
     # 20240423
     # 1052.爱生气的书店老板
     def maxSatisfied(self, customers: list[int], grumpy: list[int], minutes: int) -> int:
@@ -43,3 +44,19 @@ class Solution:
 
         ans += maxAddNum
         return ans
+    
+    # 20240423
+    # 1052.爱生气的书店老板
+    def maxSatisfied_2(self, customers: list[int], grumpy: list[int], minutes: int) -> int:
+        # 时间复杂度 O(n)
+        # 空间复杂度 O(1)
+        s = [0, 0]
+        max_s1 = 0
+        for i, (c, g) in enumerate(zip(customers, grumpy)):
+            s[g] += c
+            if i < minutes: # 窗口长度不足 minutes
+                continue
+            max_s1 = max(max_s1, s[1])
+            if grumpy[i - minutes + 1]:
+                s[1] -= customers[i - minutes + 1]  # 窗口最左边元素离开窗口
+        return s[0] + max_s1

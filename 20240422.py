@@ -1,3 +1,4 @@
+from collections import deque
 from functools import cache
 
 # 20240422
@@ -60,3 +61,40 @@ class Solution:
             if grumpy[i - minutes + 1]:
                 s[1] -= customers[i - minutes + 1]  # 窗口最左边元素离开窗口
         return s[0] + max_s1
+    
+    # 20240424
+    # 2385. 感染二叉树需要的总时间
+    def amountOfTime(self, root, start: int) -> int:
+        # 时间复杂度 O(n)
+        # 空间复杂度 O(n)
+        # 记录边 + BFS
+        time = 0
+        edgeList = [[] for _ in range(100001)]
+        q = deque()
+        q.append(root)
+        while q:
+            node = q.popleft()
+            if node.left:
+                edgeList[node.val].append(node.left.val)
+                edgeList[node.left.val].append(node.val)
+                q.append(node.left)
+            if node.right:
+                edgeList[node.val].append(node.right.val)
+                edgeList[node.right.val].append(node.val)
+                q.append(node.right)
+        
+        visited = [False] * 100001
+        q.append(start)
+        size = 1
+        while q:
+            nodeVal = q.popleft()
+            visited[nodeVal] = True
+            if size == 0:
+                size = len(q)
+                time += 1
+            else:
+                size -= 1
+            for sonVal in edgeList[nodeVal]:
+                if not visited[sonVal]:
+                    q.append(sonVal)
+        return time

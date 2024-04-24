@@ -98,3 +98,29 @@ class Solution:
                 if not visited[sonVal]:
                     q.append(sonVal)
         return time
+    
+    # 20240424
+    # 2385. 感染二叉树需要的总时间
+    def amountOfTime_2(self, root, start: int) -> int:
+        # 时间复杂度 O(n)
+        # 空间复杂度 O(n)
+        # 记录父节点 + DFS
+        fa = {}
+        start_node = None
+        
+        def dfs(node, from_):
+            if node is None:
+                return
+            fa[node] = from_    # 记录每个节点的父节点
+            if node.val == start:   # 找到 start
+                nonlocal start_node
+                start_node = node
+            dfs(node.left, node)
+            dfs(node.right, node)
+        dfs(root, None)
+
+        def maxDepth(node, from_):
+            if node is None:
+                return -1   # start 的深度是 0
+            return max(maxDepth(x, node) for x in (node.left, node.right, fa[node]) if x != from_) + 1
+        return maxDepth(start_node, start_node)

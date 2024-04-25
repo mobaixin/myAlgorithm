@@ -139,3 +139,11 @@ class Solution:
                 additionalTank -= 1
                 mainTank += 1
         return ans + mainTank * 10
+    
+    # 20240425
+    # 2739. 总行驶距离
+    def distanceTraveled_2(self, mainTank: int, additionalTank: int) -> int:
+        # 时间复杂度 O(1)
+        # 空间复杂度 O(1)
+        addTank = min((mainTank - 1) // 4, additionalTank)
+        return (mainTank +addTank) * 10

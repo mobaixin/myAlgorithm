@@ -124,3 +124,18 @@ class Solution:
                 return -1   # start 的深度是 0
             return max(maxDepth(x, node) for x in (node.left, node.right, fa[node]) if x != from_) + 1
         return maxDepth(start_node, start_node)
+
+
+    # 20240425
+    # 2739. 总行驶距离
+    def distanceTraveled(self, mainTank: int, additionalTank: int) -> int:
+        # 时间复杂度 O(mainTank)
+        # 空间复杂度 O(1)
+        ans = 0
+        while mainTank >= 5:
+            mainTank -= 5
+            ans += 50
+            if additionalTank:
+                additionalTank -= 1
+                mainTank += 1
+        return ans + mainTank * 10

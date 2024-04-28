@@ -147,3 +147,23 @@ class Solution:
         # 空间复杂度 O(1)
         addTank = min((mainTank - 1) // 4, additionalTank)
         return (mainTank +addTank) * 10
+    
+    # 20240428
+    # 1017. 负二进制转换
+    def baseNeg2(self, n: int) -> str:
+        if n == 0 or n == 1:
+            return str(n)
+        res = []
+        while n:
+            remainder = n & 1
+            res.append(str(remainder))
+            n -= remainder
+            n //= -2
+        return ''.join(res[::-1])
+
+if __name__ == "__main__":
+    solution = Solution()
+    while True:
+        n = int(input())
+        ans = solution.baseNeg2(n)
+        print(ans)

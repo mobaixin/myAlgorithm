@@ -1,4 +1,4 @@
-from math import inf, min, max
+from math import inf
 
 
 # 20240429
@@ -17,3 +17,7 @@ class Solution:
             min_salary = min(min_salary, s)
             max_salary = max(max_salary, s)
         return (sum_salary - min_salary - max_salary) / (n - 2)
+
+
+if __name__ == '__main__':
+    solution = Solution()

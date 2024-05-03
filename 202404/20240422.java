@@ -74,6 +74,45 @@ class Solution {
         return ans;
     }
 
+    public int[] findColumnWidth2(int[][] grid) {
+        // 时间复杂度 O(mnlogU), U 为 grid[i][j] 的绝对值的最大值
+        // 空间复杂度 O(1)
+        int n = grid[0].length;
+        int[] ans = new int[n];
+        for (int j = 0; j < n; j++) {
+            for (int[] row : grid) {
+                int len = row[j] <= 0 ? 1 : 0;
+                for (int x = row[j]; x != 0; x /= 10) {
+                    len++;
+                }
+                ans[j] = Math.max(ans[j], len);
+            }
+        }
+        return ans;
+    }
+
+    public int[] findColumnWidth3(int[][] grid) {
+        // 只需要对每一列的最小值或最大值求长度
+        // 时间复杂度 O(n(m + logU)), U 为 grid[i][j] 的绝对值的最大值
+        // 空间复杂度 O(1)
+        int n = grid[0].length;
+        int[] ans = new int[n];
+        for (int j = 0; j < n; j++) {
+            int minVal = 0; // 可能会有负值
+            int maxVal = 0;
+            for (int[] row : grid) {
+                minVal = Math.min(minVal, row[j]);
+                maxVal = Math.max(maxVal, row[j]);
+            }
+            int x_len = 1;
+            for (int x = Math.max(maxVal / 10, -minVal); x > 0; x /= 10) {
+                x_len++;
+            }
+            ans[j] = x_len;
+        }
+        return ans;
+    }
+
     // 20240428
     // 1017. 负二进制转换
     public String baseNeg2(int n) {

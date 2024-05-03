@@ -207,6 +207,20 @@ class Solution:
         # 空间复杂度 O(1)
         return [len(str(max(max(col), -10 * min(col)))) for col in zip(*grid)]
     
+    def findColumnWidth5(self, grid: list[list[int]]) -> list[int]:
+        # 只需要对每一列的最小值或最大值求长度，避免乘法溢出
+        # 时间复杂度 O(n(m + logU)), U 为 grid[i][j] 的绝对值的最大值
+        # 空间复杂度 O(1)
+        ans = []
+        for col in zip(*grid):
+            x_len = 1
+            x = max(max(col) // 10, -min(col))
+            while x:
+                x_len += 1
+                x //= 10
+            ans.append(x_len)
+        return ans
+    
     # 20240428
     # 1017. 负二进制转换
     def baseNeg2(self, n: int) -> str:

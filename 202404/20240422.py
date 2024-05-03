@@ -169,6 +169,19 @@ class Solution:
             j = bisect_left(self.history[index], (snap_id + 1, )) - 1
             return self.history[index][j][1] if j >= 0 else 0
     
+    # 20240427
+    # 2639. 查询网格图中每一列的宽度
+    def findColumnWidth(self, grid: list[list[int]]) -> list[int]:
+        # 时间复杂度 O(mnlogU), U 为 grid[i][j] 的绝对值的最大值
+        # 空间复杂度 O(1)
+        m = len(grid)
+        n = len(grid[0])
+        ans = [0] * n
+        for i in range(m):
+            for j in range(n):
+                ans[j] = max(ans[j], len(str(grid[i][j])))
+        return ans
+    
     # 20240428
     # 1017. 负二进制转换
     def baseNeg2(self, n: int) -> str:
@@ -184,7 +197,4 @@ class Solution:
 
 if __name__ == "__main__":
     solution = Solution()
-    while True:
-        n = int(input())
-        ans = solution.baseNeg2(n)
-        print(ans)
+    print(solution.findColumnWidth([[-15,1,3],[15,7,12],[5,6,-2]]))

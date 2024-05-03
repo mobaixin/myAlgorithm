@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 // 20240422
 class Solution {
     // 20240426
@@ -52,6 +57,21 @@ class Solution {
             // 如果不存在，则 left 为其初始值 -1
             return left;
         }
+    }
+
+    // 20240427
+    // 2639. 查询网格图中每一列的宽度
+    public int[] findColumnWidth(int[][] grid) {
+        // 时间复杂度 O(mnlogU), U 为 grid[i][j] 的绝对值的最大值
+        // 空间复杂度 O(1)
+        int n = grid[0].length;
+        int[] ans = new int[n];
+        for (int j = 0; j < n; j++) {
+            for (int[] row : grid) {
+                ans[j] = Math.max(ans[j], Integer.toString(row[j]).length());
+            }
+        }
+        return ans;
     }
 
     // 20240428

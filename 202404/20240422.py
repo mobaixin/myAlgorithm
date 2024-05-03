@@ -182,6 +182,31 @@ class Solution:
                 ans[j] = max(ans[j], len(str(grid[i][j])))
         return ans
     
+    def findColumnWidth2(self, grid: list[list[int]]) -> list[int]:
+        # 时间复杂度 O(mnlogU), U 为 grid[i][j] 的绝对值的最大值
+        # 空间复杂度 O(1)
+        return [max(len(str(x)) for x in col) for col in zip(*grid)]
+    
+    def findColumnWidth3(self, grid: list[list[int]]) -> list[int]:
+        # 时间复杂度 O(mnlogU), U 为 grid[i][j] 的绝对值的最大值
+        # 空间复杂度 O(1)
+        ans = [0] * len(grid[0])
+        for j, col in enumerate(zip(*grid)):
+            for x in col:
+                x_len = int(x <= 0)
+                x = abs(x)
+                while x:
+                    x_len += 1
+                    x //= 10
+                ans[j] = max(ans[j], x_len)
+        return ans
+    
+    def findColumnWidth4(self, grid: list[list[int]]) -> list[int]:
+        # 只需要对每一列的最小值或最大值求长度
+        # 时间复杂度 O(n(m + logU)), U 为 grid[i][j] 的绝对值的最大值
+        # 空间复杂度 O(1)
+        return [len(str(max(max(col), -10 * min(col)))) for col in zip(*grid)]
+    
     # 20240428
     # 1017. 负二进制转换
     def baseNeg2(self, n: int) -> str:
@@ -197,4 +222,4 @@ class Solution:
 
 if __name__ == "__main__":
     solution = Solution()
-    print(solution.findColumnWidth([[-15,1,3],[15,7,12],[5,6,-2]]))
+    print(solution.findColumnWidth4([[-15,1,3],[15,7,12],[5,6,-2]]))

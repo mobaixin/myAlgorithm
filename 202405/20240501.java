@@ -52,6 +52,27 @@ class Solution {
         return left;
     }
 
+    // 20240505
+    // 1652. 拆炸弹
+    public int[] decrypt(int[] code, int k) {
+        // 时间复杂度 O(n)
+        // 空间复杂度 O(1)
+        int n = code.length;
+        int[] ans = new int[n];
+        int r = k > 0 ? k + 1 : n;
+        k = Math.abs(k);
+        int sum_tmp = 0;
+        for (int i = r - k; i < r; i++) {
+            sum_tmp += code[i]; // ans[0]
+        }
+        for (int i = 0; i < n; i++) {
+            ans[i] = sum_tmp;
+            sum_tmp = sum_tmp - code[(r - k) % n] + code[r % n];
+            r++;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution);

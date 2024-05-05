@@ -32,6 +32,29 @@ class Solution:
             # 状态转移中, 为什么是 j 不是 j+1: 上面算的是 > st, -1 后得到 <= st, 但由于还要 +1, 抵消了
             f[i + 1] = max(f[i], f[j] + p)
         return f[-1]
+    
+    # 20240505
+    # 1652. 拆炸弹
+    def decrypt(self, code: list[int], k: int) -> list[int]:
+        # 时间复杂度 O(n)
+        # 空间复杂度 O(1)
+        n = len(code)
+        ans = [0] * n
+        if k == 0:
+            return ans
+        elif k < 0:
+            sum_tmp = sum(code[k:])
+            ans[0] = sum_tmp
+            for i in range(1, n):
+                sum_tmp = sum_tmp - code[i - k - 1] + code[i - 1]
+                ans[i] = sum_tmp
+        else:
+            sum_tmp = sum(code[1:k+1])
+            ans[0] = sum_tmp
+            for i in range(1, n):
+                sum_tmp = sum_tmp - code[i] + code[(i + k) % n]
+                ans[i] = sum_tmp
+        return ans
 
 if __name__ == '__main__':
     solution = Solution()

@@ -55,6 +55,25 @@ class Solution:
                 sum_tmp = sum_tmp - code[i] + code[(i + k) % n]
                 ans[i] = sum_tmp
         return ans
+    
+    # 20240505
+    # 1652. 拆炸弹
+    def decrypt2(self, code: list[int], k: int) -> list[int]:
+        # 时间复杂度 O(n)
+        # 空间复杂度 O(1)
+        n = len(code)
+        ans = [0] * n
+        if k == 0:
+            return ans
+
+        r = k + 1 if k > 0 else n   # 固定长度的滑动窗口，只需要知道 r
+        k = abs(k)
+        sum_tmp = sum(code[r - k: r])   # ans[0]
+        for i in range(n):
+            ans[i] = sum_tmp
+            sum_tmp = sum_tmp - code[(r - k) % n] + code[r % n]
+            r += 1
+        return ans
 
 if __name__ == '__main__':
     solution = Solution()

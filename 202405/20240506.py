@@ -70,6 +70,7 @@ class Solution:
     # 20240507
     # 1463. 摘樱桃 II
     def cherryPickupII(self, grid: list[list[int]]) -> int:
+        # 递归方式
         # 时间复杂度 O(mn^2)
         # 空间复杂度 O(mn^2)
         m, n = len(grid), len(grid[0])
@@ -82,11 +83,29 @@ class Solution:
             val = grid[i][j] + (grid[i][k] if j != k else 0)
             return max(dfs(i + 1, j2, k2) for j2 in (j - 1, j, j + 1) for k2 in (k - 1, k, k + 1)) + val
         return dfs(0, 0, n - 1)
+    
+    # 20240507
+    # 1463. 摘樱桃 II
+    def cherryPickupII2(self, grid: list[list[int]]) -> int:
+        # 三维递推方式
+        # 时间复杂度 O(mn^2)
+        # 空间复杂度 O(mn^2)
+        m, n = len(grid), len(grid[0])
+        f = [[[0] * (n + 2) for _ in range(n + 2)] for _ in range(m + 1)]
+        for i in range(m - 1, -1, -1):
+            for j in range(min(n, i + 1)):
+                for k in range(max(j + 1, n - 1 - i), n):   # 只需要计算 k > j 的状态
+                    val = grid[i][j] + grid[i][k]
+                    f[i][j + 1][k + 1] = max(
+                        f[i + 1][j][k], f[i + 1][j][k + 1], f[i + 1][j][k + 2],
+                        f[i + 1][j + 1][k], f[i + 1][j + 1][k + 1], f[i + 1][j + 1][k + 2],
+                        f[i + 1][j + 2][k], f[i + 1][j + 2][k + 1], f[i + 1][j + 2][k + 2]
+                    ) + val
+        return f[0][1][n]
 
 
 if __name__ == '__main__':
     solution = Solution()
-    print(solution)
                     
 
             

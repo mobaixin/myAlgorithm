@@ -102,10 +102,34 @@ class Solution:
                         f[i + 1][j + 2][k], f[i + 1][j + 2][k + 1], f[i + 1][j + 2][k + 2]
                     ) + val
         return f[0][1][n]
+    
+    # 20240507
+    # 1463. 摘樱桃 II
+    def cherryPickupII3(self, grid: list[list[int]]) -> int:
+        # 三维递推方式，空间优化，在计算 f[i] 时，只会用到 f[i+1]
+        # 时间复杂度 O(mn^2)
+        # 空间复杂度 O(n^2)
+        m, n = len(grid), len(grid[0])
+        pre = [[0] * (n + 2) for _ in range(n + 2)]
+        cur = [[0] * (n + 2) for _ in range(n + 2)]
+        for i in range(m - 1, -1, -1):
+            for j in range(min(n, i + 1)):
+                for k in range(max(j + 1, n - 1 - i), n):
+                    val = grid[i][j] + grid[i][k]
+                    cur[j + 1][k + 1] = max(
+                        pre[j][k], pre[j][k + 1], pre[j][k + 2],
+                        pre[j + 1][k], pre[j + 1][k + 1], pre[j + 1][k + 2],
+                        pre[j + 2][k], pre[j + 2][k + 1], pre[j + 2][k + 2]
+                    ) + val
+            pre, cur = cur, pre # 下一个 i 的 pre 是 cur
+        return pre[1][n]
+
 
 
 if __name__ == '__main__':
     solution = Solution()
+    grid = [[3,1,1],[2,5,1],[1,5,5],[2,1,1]]
+    print(solution.cherryPickupII2(grid))
                     
 
             

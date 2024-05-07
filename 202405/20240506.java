@@ -2,6 +2,8 @@ import java.util.Arrays;
 
 import javax.swing.text.AbstractDocument.LeafElement;
 
+import org.ietf.jgss.GSSException;
+
 // 20240506
 class Solution {
     // 20240506
@@ -163,6 +165,33 @@ class Solution {
         }
         return f[0][1][n];
     }
+
+    // 20240507
+    // 1463. 摘樱桃 II
+    public int cherryPickupII3(int[][] grid) {
+        // 二维递推方式，空间优化，计算 f[i] 时，只会用到 f[i + 1]
+        // 时间复杂度 O(mn^2)
+        // 空间复杂度 O(n^2)
+        int m = grid.length, n = grid[0].length;
+        int[][] pre = new int[n + 2][n + 2];
+        int[][] cur = new int[n + 2][n + 2];
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = 0; j < Math.min(n, i + 1); j++) {
+                for (int k = Math.max(j + 1, n - 1 - i); k < n; k++) {  // 只需要计算 k > j 的状态
+                    int val = grid[i][j] + grid[i][k];
+                    cur[j + 1][k + 1] = max(
+                        pre[j][k], pre[j][k + 1], pre[j][k + 2],
+                        pre[j + 1][k], pre[j + 1][k + 1], pre[j + 1][k + 2],
+                        pre[j + 2][k], pre[j + 2][k + 1], pre[j + 2][k + 2]
+                    ) + val;
+                }
+            }
+            int[][] tmp = pre;
+            pre = cur;  // 下一个 i 的 pre 是 cur
+            cur = tmp;
+        }
+        return pre[1][n];
+    }
     private int max(int x, int... y) {
         for (int v : y) {
             x = Math.max(x, v);
@@ -172,5 +201,7 @@ class Solution {
  
     public static void main(String[] args) {
         Solution solution = new Solution();
+        int[][] grid = {{3,1,1},{2,5,1},{1,5,5},{2,1,1}};
+        System.out.println(solution.cherryPickupII3(grid));
     }
 }

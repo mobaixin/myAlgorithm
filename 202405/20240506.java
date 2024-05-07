@@ -101,6 +101,43 @@ class Solution {
         return Math.max(f[n][n], 0);
     }
 
+    // 20240507
+    // 1463. 摘樱桃 II
+    public int cherryPickupII(int[][] grid) {
+        // 递归方式
+        // 时间复杂度 O(mn^2)
+        // 空间复杂度 O(mn^2)
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][][] memo = new int[m][n][n];
+        for (int[][] me : memo) {
+            for (int[] r : me) {
+                Arrays.fill(r, -1); // -1 表示没有计算过
+            }
+        }
+        return dfsII(0, 0, n - 1, grid, memo);
+    }
+    private int dfsII(int i, int j, int k, int[][] grid, int[][][] memo) {
+        int m = grid.length;
+        int n = grid[0].length;
+        if (i == m || j < 0 || j >= n || k < 0 || k >= n) {
+            return 0;
+        }
+        if (memo[i][j][k] != -1) {  // 之前计算过
+            return memo[i][j][k];
+        }
+        int res = 0;
+        int val = grid[i][j] + (j != k ? grid[i][k] : 0);
+        for (int j2 = j - 1; j2 <= j + 1; j2++) {
+            for (int k2 = k - 1; k2 <= k + 1; k2++) {
+                res = Math.max(res, dfsII(i + 1, j2, k2, grid, memo));
+            }
+        }
+        res += val;
+        memo[i][j][k] = res;
+        return res;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
     }

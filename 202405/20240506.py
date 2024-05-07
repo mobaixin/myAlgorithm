@@ -1,3 +1,4 @@
+from functools import cache
 from math import inf
 
 
@@ -65,7 +66,27 @@ class Solution:
                         val = grid[t - j][j] + grid[t - k][k] if j != k else 0
                         f[j + 1][k + 1] = max(f[j + 1][k + 1], f[j + 1][k], f[j][k + 1], f[j][k]) + val
         return max(f[n][n], 0)
+    
+    # 20240507
+    # 1463. 摘樱桃 II
+    def cherryPickupII(self, grid: list[list[int]]) -> int:
+        # 时间复杂度 O(mn^2)
+        # 空间复杂度 O(mn^2)
+        m, n = len(grid), len(grid[0])
 
+        # i: 当前所在的行，j: 第一条路当前所在的列，k: 第二条路当前所在的列
+        @cache
+        def dfs(i: int, j: int, k: int) -> int:
+            if i == m or j < 0 or j >= n or k < 0 or k >= n:
+                return 0
+            val = grid[i][j] + (grid[i][k] if j != k else 0)
+            return max(dfs(i + 1, j2, k2) for j2 in (j - 1, j, j + 1) for k2 in (k - 1, k, k + 1)) + val
+        return dfs(0, 0, n - 1)
+
+
+if __name__ == '__main__':
+    solution = Solution()
+    print(solution)
                     
 
             

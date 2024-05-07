@@ -1,5 +1,7 @@
 import java.util.Arrays;
 
+import javax.swing.text.AbstractDocument.LeafElement;
+
 // 20240506
 class Solution {
     // 20240506
@@ -138,6 +140,36 @@ class Solution {
         return res;
     }
 
+    // 20240507
+    // 1463. 摘樱桃 II
+    public int cherryPickupII2(int[][] grid) {
+        // 三维递推方式
+        // 时间复杂度 O(mn^2)
+        // 空间复杂度 O(mn^2)
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][][] f = new int[m + 1][n + 2][n + 2];
+        for (int i = m - 1; i >= 0; i--) {
+            for (int j = 0; j < Math.min(n, i + 1); j++) {
+                for (int k = Math.max(j + 1, n - 1 - i); k < n; k++) {  // 只需要计算 k > j 的状态
+                    int val = grid[i][j] + grid[i][k];
+                    f[i][j + 1][k + 1] = max(
+                        f[i + 1][j][k], f[i + 1][j][k + 1], f[i + 1][j][k + 2],
+                        f[i + 1][j + 1][k], f[i + 1][j + 1][k + 1], f[i + 1][j + 1][k + 2],
+                        f[i + 1][j + 2][k], f[i + 1][j + 2][k + 1], f[i + 1][j + 2][k + 2]
+                    ) + val;
+                }
+            }
+        }
+        return f[0][1][n];
+    }
+    private int max(int x, int... y) {
+        for (int v : y) {
+            x = Math.max(x, v);
+        }
+        return x;
+    }
+ 
     public static void main(String[] args) {
         Solution solution = new Solution();
     }

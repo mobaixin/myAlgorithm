@@ -198,6 +198,25 @@ class Solution {
         }
         return x;
     }
+
+    // 20240508
+    // 2079. 给植物浇水
+    public int wateringPlants(int[] plants, int capacity) {
+        // 时间复杂度 O(n)
+        // 空间复杂度 O(1)
+        int n = plants.length;
+        int totalSteps = 0;
+        int curCapacity = capacity;
+        for (int i = 0; i < n; i++) {
+            if (curCapacity < plants[i]) {
+                totalSteps += 2 * i;
+                curCapacity = capacity;
+            }
+            totalSteps += 1;
+            curCapacity -= plants[i];
+        }
+        return totalSteps;
+    }
  
     public static void main(String[] args) {
         Solution solution = new Solution();

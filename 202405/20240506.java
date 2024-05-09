@@ -217,6 +217,40 @@ class Solution {
         }
         return totalSteps;
     }
+
+    // 20240508
+    // 2105. 给植物浇水 II
+    public int minimumRefill(int[] plants, int capacityA, int capacityB) {
+        // 时间复杂度 O(n)
+        // 空间复杂度 O(1)
+        int ans = 0;
+        int a = capacityA;
+        int b = capacityB;
+        int i = 0;
+        int j = plants.length - 1;
+        while (i < j) {
+            // Alice 给植物 i 浇水
+            if (a < plants[i]) {
+                // 没有足够的水，重新灌满水罐
+                ans++;
+                a = capacityA;
+            }
+            a -= plants[i++];
+            // Bob 给植物 j 浇水
+            if (b < plants[j]) {
+                // 没有足够的水，重新灌满水罐
+                ans++;
+                b = capacityB;
+            }
+            b -= plants[j--];
+        }
+        // Alice 和 Bob 到达同一株植物，那么当前水罐中水更多的人会给这株植物浇水
+        if (i == j && Math.max(a, b) < plants[i]) {
+            // 没有足够的水，重新灌满水罐
+            ans++;
+        }
+        return ans;
+    }
  
     public static void main(String[] args) {
         Solution solution = new Solution();

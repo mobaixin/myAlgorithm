@@ -218,7 +218,7 @@ class Solution {
         return totalSteps;
     }
 
-    // 20240508
+    // 20240509
     // 2105. 给植物浇水 II
     public int minimumRefill(int[] plants, int capacityA, int capacityB) {
         // 时间复杂度 O(n)
@@ -250,6 +250,20 @@ class Solution {
             ans++;
         }
         return ans;
+    }
+
+    // 20240510
+    // 2960. 统计已测试设备
+    public int countTestedDevices(int[] batteryPercentages) {
+        // 时间复杂度 O(n)
+        // 空间复杂度 O(1)
+        int dec = 0;
+        for (int x : batteryPercentages) {
+            if (x > dec) {
+                dec++;
+            }
+        }
+        return dec;
     }
  
     public static void main(String[] args) {

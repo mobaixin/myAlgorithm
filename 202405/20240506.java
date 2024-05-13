@@ -265,6 +265,26 @@ class Solution {
         }
         return dec;
     }
+
+    // 20240511
+    // 2391. 收集垃圾的最少总时间
+    public int garbageCollection(String[] garbage, int[] travel) {
+        // 时间复杂度 O(n + L)
+        // 空间复杂度 O(1)
+        int ans = 0;
+        for (String g : garbage) {
+            ans += g.length();
+        }
+        for (int t : travel) {
+            ans += t * 3;
+        }
+        for (char c : new char[]{'M', 'P', 'G'}) {
+            for (int i = garbage.length - 1; i > 0 && garbage[i].indexOf(c) < 0; i--) {
+                ans -= travel[i - 1];   // 没有垃圾 c，多跑了
+            }
+        }
+        return ans;
+    }
  
     public static void main(String[] args) {
         Solution solution = new Solution();

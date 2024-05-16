@@ -53,6 +53,20 @@ class Solution {
         return ans;
     }
 
+    // 20240516
+    // 1953. 你可以工作的最大周数
+    public long numberOfWeeks(int[] milestones) {
+        // 时间复杂度 O(n)
+        // 空间复杂度 O(1)
+        long s = 0;
+        int m = 0;
+        for (int x : milestones) {
+            s += x;
+            m = Math.max(x, m);
+        }
+        return m > s - m + 1 ? (s - m) * 2 + 1 : s;
+    }
+
     public static void main(String[] args) {
         Solution solution = new Solution();
         System.out.println(solution);
